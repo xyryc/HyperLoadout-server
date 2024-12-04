@@ -29,6 +29,12 @@ async function run() {
     .db("hyperloadoutDB")
     .collection("equipments");
 
+  app.get("/equipments", async (req, res) => {
+    const cursor = equipmentCollection.find();
+    const result = await cursor.toArray();
+    res.send(result);
+  });
+
   app.post("/equipments", async (req, res) => {
     const newEquipment = req.body;
 
