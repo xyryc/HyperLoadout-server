@@ -51,6 +51,14 @@ async function run() {
     res.send(result);
   });
 
+  app.get("/update-equipment/:id", async (req, res) => {
+    const id = req.params.id;
+
+    const query = { _id: new ObjectId(id) };
+    const result = await equipmentCollection.findOne(query);
+    res.send(result);
+  });
+
   // get data by email
   app.get("/my-equipment/:email", async (req, res) => {
     const user_email = req.params.email;
@@ -58,6 +66,35 @@ async function run() {
     const query = { email: user_email };
     const cursor = equipmentCollection.find(query);
     const result = await cursor.toArray();
+    res.send(result);
+  });
+
+  // update by id
+  app.put("/update-equipment/:id", async (req, res) => {
+    const id = req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const options = { upsert: true };
+    const updatedEquipment = req.body;
+
+    const equipment = {
+      $set: {
+        name: updatedEquipment.name,
+        category: updatedEquipment.category,
+        description: updatedEquipment.description,
+        processing_time: updatedEquipment.processing_time,
+        customization: updatedEquipment.customization,
+        rating: updatedEquipment.rating,
+        price: updatedEquipment.price,
+        stock: updatedEquipment.stock,
+        photo: updatedEquipment.photo,
+      },
+    };
+
+    const result = await equipmentCollection.updateOne(
+      filter,
+      equipment,
+      options
+    );
     res.send(result);
   });
 
