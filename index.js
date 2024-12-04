@@ -42,11 +42,22 @@ async function run() {
     res.send(result);
   });
 
+  // get data by id
   app.get("/equipment/:id", async (req, res) => {
     const id = req.params.id;
 
     const query = { _id: new ObjectId(id) };
     const result = await equipmentCollection.findOne(query);
+    res.send(result);
+  });
+
+  // get data by email
+  app.get("/my-equipment/:email", async (req, res) => {
+    const user_email = req.params.email;
+
+    const query = { email: user_email };
+    const cursor = equipmentCollection.find(query);
+    const result = await cursor.toArray();
     res.send(result);
   });
 
