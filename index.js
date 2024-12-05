@@ -35,6 +35,12 @@ async function run() {
     res.send(result);
   });
 
+  app.get("/products", async (req, res) => {
+    const cursor = equipmentCollection.find().limit(6).skip(1);
+    const result = await cursor.toArray();
+    res.send(result);
+  });
+
   app.post("/equipments", async (req, res) => {
     const newEquipment = req.body;
 
