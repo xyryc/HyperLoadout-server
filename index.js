@@ -35,6 +35,16 @@ async function run() {
     res.send(result);
   });
 
+  //descending sort
+  app.get("/equipments/sort/descending", async (req, res) => {
+    const pipeline = [
+      { $addFields: { priceNumber: { $toDouble: "$price" } } }, // Convert price to number
+      { $sort: { priceNumber: -1 } }, // Sort by the converted number field
+    ];
+    const result = await equipmentCollection.aggregate(pipeline).toArray();
+    res.send(result);
+  });
+
   app.get("/products", async (req, res) => {
     const cursor = equipmentCollection.find().limit(6).skip(1);
     const result = await cursor.toArray();
