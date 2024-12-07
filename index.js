@@ -56,7 +56,7 @@ async function run() {
   });
 
   app.get("/products", async (req, res) => {
-    const cursor = equipmentCollection.find().limit(6).skip(1);
+    const cursor = equipmentCollection.find().limit(6);
     const result = await cursor.toArray();
     res.send(result);
   });
@@ -142,7 +142,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Server running");
+  res.send("HyperLoadout server running");
 });
 
 app.listen(port, () => {
