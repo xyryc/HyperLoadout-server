@@ -56,7 +56,7 @@ async function run() {
   });
 
   app.get("/products", async (req, res) => {
-    const cursor = equipmentCollection.find().limit(6);
+    const cursor = equipmentCollection.find().limit(8);
     const result = await cursor.toArray();
     res.send(result);
   });
